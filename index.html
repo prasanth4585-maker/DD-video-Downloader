@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Universal Downloader</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+
+body{
+    min-height:100vh;
+    background:radial-gradient(circle at top,#0f2027,#000);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    padding:15px;
+}
+
+.card{
+    width:100%;
+    max-width:560px;
+    padding:25px;
+    border-radius:22px;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(15px);
+    box-shadow:0 30px 60px rgba(0,0,0,.6);
+}
+
+h1{text-align:center;font-weight:600}
+.tagline{text-align:center;font-size:14px;opacity:.8;margin:10px 0 20px}
+
+/* URL TAB */
+.url-tab{
+    background:linear-gradient(135deg,#00c6ff,#0072ff);
+    padding:10px;
+    border-radius:14px;
+}
+.url-tab input{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    outline:none;
+    font-size:15px;
+}
+
+/* SELECTS */
+.row{
+    display:flex;
+    gap:10px;
+    margin:15px 0;
+}
+select{
+    flex:1;
+    padding:12px;
+    border-radius:10px;
+    border:none;
+    outline:none;
+}
+
+/* BUTTON */
+button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:14px;
+    background:linear-gradient(135deg,#00ffcc,#00c6ff);
+    color:#000;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+/* INFO */
+.info{
+    font-size:13px;
+    opacity:.8;
+    margin-top:10px;
+    text-align:center;
+}
+
+/* NEON DD CREATION */
+.neon{
+    margin-top:25px;
+    text-align:center;
+    font-size:16px;
+    font-weight:600;
+    color:#00ffcc;
+    text-shadow:
+        0 0 5px #00ffcc,
+        0 0 10px #00ffcc,
+        0 0 20px #00c6ff,
+        0 0 40px #0072ff;
+    animation:glow 2s infinite alternate;
+}
+
+@keyframes glow{
+    from{opacity:.6}
+    to{opacity:1}
+}
+
+/* MOBILE */
+@media(max-width:480px){
+    .row{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Universal Downloader</h1>
+    <div class="tagline">Download Video • MP3 • Images</div>
+
+    <div class="url-tab">
+        <input id="url" placeholder="Paste social media link here">
+    </div>
+
+    <div class="row">
+        <select id="mediaType" onchange="updateFormats()">
+            <option value="video">🎬 Video</option>
+            <option value="audio">🎵 MP3</option>
+            <option value="image">🖼️ Image</option>
+        </select>
+
+        <select id="format"></select>
+    </div>
+
+    <button onclick="startDownload()">Download</button>
+
+    <div class="info" id="infoText">
+        Select type to see available formats
+    </div>
+
+    <div class="neon">⚡ DD Creation ⚡</div>
+</div>
+
+<script>
+const formatSelect = document.getElementById("format");
+const infoText = document.getElementById("infoText");
+
+function updateFormats(){
+    const type = document.getElementById("mediaType").value;
+    formatSelect.innerHTML = "";
+
+    let formats = [];
+
+    if(type === "video"){
+        formats = [
+            "MP4 - 4K",
+            "MP4 - 1080p",
+            "MP4 - 720p",
+            "MP4 - 480p",
+            "WEBM",
+            "MKV",
+            "Convert Video to MP3"
+        ];
+        infoText.innerText = "Video can also be converted to MP3";
+    }
+
+    if(type === "audio"){
+        formats = [
+            "MP3 - 320 kbps",
+            "MP3 - 192 kbps",
+            "MP3 - 128 kbps",
+            "AAC",
+            "WAV",
+            "FLAC"
+        ];
+        infoText.innerText = "High quality audio formats available";
+    }
+
+    if(type === "image"){
+        formats = [
+            "JPG",
+            "PNG",
+            "WEBP",
+            "Download All Images"
+        ];
+        infoText.innerText = "Image posts & galleries supported";
+    }
+
+    formats.forEach(f=>{
+        const opt=document.createElement("option");
+        opt.textContent=f;
+        formatSelect.appendChild(opt);
+    });
+}
+
+// initial load
+updateFormats();
+
+function startDownload(){
+    const url=document.getElementById("url").value.trim();
+    if(!url){
+        alert("Please paste a valid URL");
+        return;
+    }
+
+    alert(
+        "Request prepared!\n\n" +
+        "Type: " + mediaType.value +
+        "\nFormat: " + formatSelect.value +
+        "\n\nConnect backend to start real downloads."
+    );
+}
+</script>
+
+</body>
+</html>
